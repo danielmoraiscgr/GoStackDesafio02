@@ -17,34 +17,6 @@ app.get('/repositories', (request, response) => {
     return response.json(repositories);      
 });
 
-app.get('/repositories/:id', (request, response) => {
-   const { id } = request.params;
-   
- if (!isUuid(id)){
-    return response.status(400).json({ error: 'Id inválido'});}
-
-   const repositoryIndex = repositories.findIndex(rep => rep.id==id);
- 
-   if (repositoryIndex < 0){
-      return response.status(404).json({ error: 'Repositório não encontrado' });
-   }
-
-   const repository = { 
-         id,
-         title,
-         url,
-         techs,
-         likes
-         };
-
-   repositories[repositoryIndex] = repository; 
-   
-   console.log(repository);
-
-   return response.json(repository);
-
-});
-
 app.post('/repositories', (request, response) => {
   const { title, url, techs } = request.body;
   
@@ -72,7 +44,7 @@ app.put('/repositories/:id', (request, response) => {
     return response.status(400).json({ error: 'Não localizado '});
   }
 
-  const repository = { id, title , url, techs };
+  const repository = { id,   title , url, techs };
 
   repositories[repositoryIndex] = repository; 
 
@@ -103,7 +75,7 @@ app.post('/repositories/:id/like', (request, response) => {
   const repositoryIndex = repositories.findIndex( rep => rep.id == id);
 
   if(repositoryIndex == -1){    
-    return response.status(404).json({ error: 'Repositorio não encontrado'});
+    return response.status(400).json({ error: 'Repositorio não encontrado'});
   }
 
   repositories[repositoryIndex].likes+=1; 
