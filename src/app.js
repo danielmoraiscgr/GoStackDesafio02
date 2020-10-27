@@ -38,13 +38,18 @@ app.put('/repositories/:id', (request, response) => {
   if (!isUuid(id)){
     return response.status(400).json({ error: 'Id inválido'});}
 
-  const repositoryIndex = repositories.findIndex( rep => rep.id = id);
+  const repositoryIndex = repositories.findIndex( rep => rep.id == id);
 
   if(repositoryIndex<0){
     return response.status(400).json({ error: 'Não localizado '});
   }
 
-  const repository = { id,   title , url, techs };
+  const repository = { 
+                   id, 
+                   title , 
+                   url, 
+                   techs,
+                   likes : repositories[repositoryIndex].likes };
 
   repositories[repositoryIndex] = repository; 
 
